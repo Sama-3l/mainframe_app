@@ -4,6 +4,11 @@ import 'package:mainframe_app/features/gallery/domain/entities/gallery_entity.da
 class ImagePreviewWidgetEntity {
   final List<GalleryEntity> images;
   final int imageIndex;
+  final bool confirmUpload;
 
-  ImagePreviewWidgetEntity({required this.images, required this.imageIndex});
+  ImagePreviewWidgetEntity({
+    required this.images,
+    required this.imageIndex,
+    this.confirmUpload = false,
+  });
 }

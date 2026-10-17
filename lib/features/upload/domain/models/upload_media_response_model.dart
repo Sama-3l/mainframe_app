@@ -29,34 +29,3 @@ class UploadMediaElementModel {
 
   Map<String, dynamic> toJson() => _$UploadMediaElementModelToJson(this);
 }
-
-@JsonSerializable()
-class UploadMediaResponseModel {
-  final List<UploadMediaElementModel> images;
-  UploadMediaResponseModel({required this.images});
-
-  UploadMediaResponseModel copyWith({List<UploadMediaElementModel>? images}) {
-    return UploadMediaResponseModel(images: images ?? this.images);
-  }
-
-  factory UploadMediaResponseModel.fromEntity(
-    UploadMediaResponseEntity entity,
-  ) {
-    return UploadMediaResponseModel(
-      images: entity.images
-          .map((e) => UploadMediaElementModel.fromEntity(e))
-          .toList(),
-    );
-  }
-
-  UploadMediaResponseEntity toEntity() {
-    return UploadMediaResponseEntity(
-      images: images.map((e) => e.toEntity()).toList(),
-    );
-  }
-
-  factory UploadMediaResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$UploadMediaResponseModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$UploadMediaResponseModelToJson(this);
-}

@@ -15,19 +15,20 @@ class UploadMediaRepoImpl extends UploadMediaRepo {
   // ── Bootstrap ─────────────────────────────────────────────────────────────
 
   @override
-  Future<Either<Failure, UploadMediaResponseEntity>> upload(FormData body) =>
-      genericRepositoryMethod(
-        method: () async {
-          final response = await _remoteDataSource.upload(body);
+  Future<Either<Failure, List<UploadMediaElementEntity>>> upload(
+    FormData body,
+  ) => genericRepositoryMethod(
+    method: () async {
+      final response = await _remoteDataSource.upload(body);
 
-          // The backend returns success:false for business-logic errors
-          // (e.g. invalid/expired token). Treat this as a server failure.
-          if (!response.success || response.data == null) {
-            throw ServerException(message: response.message);
-          }
+      // The backend returns success:false for business-logic errors
+      // (e.g. invalid/expired token). Treat this as a server failure.
+      if (!response.success || response.data == null) {
+        throw ServerException(message: response.message);
+      }
 
-          final d = response.data!;
-          return d.toEntity();
-        },
-      );
+      final d = response.data!;
+      return d.map((e) => e.toEntity()).toList();
+    },
+  );
 }

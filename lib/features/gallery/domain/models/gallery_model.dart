@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/gallery_entity.dart';
 
@@ -34,12 +32,12 @@ class GalleryModel {
   factory GalleryModel.fromEntity(GalleryEntity entity) {
     return GalleryModel(
       file: FileModel.fromEntity(entity.file),
-      data: base64Encode(entity.data),
+      data: entity.data,
     );
   }
 
   GalleryEntity toEntity() {
-    return GalleryEntity(file: file.toEntity(), data: base64Decode(data));
+    return GalleryEntity(file: file.toEntity(), data: data);
   }
 
   factory GalleryModel.fromJson(Map<String, dynamic> json) =>

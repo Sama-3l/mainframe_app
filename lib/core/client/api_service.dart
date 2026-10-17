@@ -15,7 +15,7 @@ abstract class ApiService {
 
   // /// POST /auth/bootstrap
   @POST(ApiEndpoints.upload)
-  Future<ApiResponse<UploadMediaResponseModel>> uploadData(
+  Future<ApiResponse<List<UploadMediaElementModel>>> uploadData(
     @Body() FormData body,
   );
 

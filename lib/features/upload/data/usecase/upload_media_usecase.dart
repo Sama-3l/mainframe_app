@@ -6,14 +6,14 @@ import 'package:mainframe_app/features/upload/domain/entities/upload_media_respo
 import 'package:mainframe_app/features/upload/domain/repo/upload_media_repo.dart';
 
 class UploadMediaUsecase
-    extends UseCase<UploadMediaResponseEntity, UploadMediaEntity> {
+    extends UseCase<List<UploadMediaElementEntity>, UploadMediaEntity> {
   final UploadMediaRepo _repo;
 
   UploadMediaUsecase({required UploadMediaRepo repository})
     : _repo = repository;
 
   @override
-  Future<Either<Failure, UploadMediaResponseEntity>> call(
+  Future<Either<Failure, List<UploadMediaElementEntity>>> call(
     UploadMediaEntity params,
   ) => _repo.upload(params.formData);
 }

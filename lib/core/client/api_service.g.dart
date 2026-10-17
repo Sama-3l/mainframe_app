@@ -21,14 +21,14 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<ApiResponse<UploadMediaResponseModel>> uploadData(
+  Future<ApiResponse<List<UploadMediaElementModel>>> uploadData(
     FormData body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = body;
-    final _options = _setStreamType<ApiResponse<UploadMediaResponseModel>>(
+    final _options = _setStreamType<ApiResponse<List<UploadMediaElementModel>>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -39,12 +39,19 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResponse<UploadMediaResponseModel> _value;
+    late ApiResponse<List<UploadMediaElementModel>> _value;
     try {
-      _value = ApiResponse<UploadMediaResponseModel>.fromJson(
+      _value = ApiResponse<List<UploadMediaElementModel>>.fromJson(
         _result.data!,
-        (json) =>
-            UploadMediaResponseModel.fromJson(json as Map<String, dynamic>),
+        (json) => json is List<dynamic>
+            ? json
+                  .map<UploadMediaElementModel>(
+                    (i) => UploadMediaElementModel.fromJson(
+                      i as Map<String, dynamic>,
+                    ),
+                  )
+                  .toList()
+            : List.empty(),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

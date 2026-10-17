@@ -9,6 +9,7 @@ class FileEntity {
 
 class GalleryEntity {
   final FileEntity file;
-  final Uint8List data;
-  GalleryEntity({required this.file, required this.data});
+  final String data;
+  final Uint8List? bytes;
+  GalleryEntity({required this.file, required this.data, this.bytes});
 }

@@ -9,5 +9,5 @@ import 'package:mainframe_app/core/errors/failures.dart';
 import 'package:mainframe_app/features/upload/domain/entities/upload_media_response_entity.dart';
 
 abstract class UploadMediaRepo {
-  Future<Either<Failure, UploadMediaResponseEntity>> upload(FormData body);
+  Future<Either<Failure, List<UploadMediaElementEntity>>> upload(FormData body);
 }

@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
@@ -41,33 +43,53 @@ class _HomePageState extends State<HomePage> {
                     child: SizedBox(
                       height: 32,
                       width: 32,
-                      child: CircularProgressIndicator(
-                        color: ColorsConstants.background,
+                      child: CircularProgressIndicator.adaptive(
+                        backgroundColor: ColorsConstants.background,
                       ),
                     ),
                   )
-                : GridView.builder(
-                    itemCount: state.gallery.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: 1,
-                        ),
-                    itemBuilder: ((context, index) => InkWell(
-                      onTap: () => GoRouter.of(context).pushNamed(
-                        Routes.imagePreview,
-                        extra: ImagePreviewWidgetEntity(
-                          images: state.gallery,
-                          imageIndex: index,
+                : Column(
+                    children: [
+                      Expanded(
+                        child: GridView.builder(
+                          itemCount: state.gallery.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
+                                childAspectRatio: 1,
+                              ),
+                          itemBuilder: ((context, index) {
+                            final url =
+                                "${dotenv.get("API_URL")}/uploads/${state.gallery[index].file.name}";
+                            return InkWell(
+                              onTap: () => GoRouter.of(context).pushNamed(
+                                Routes.imagePreview,
+                                extra: ImagePreviewWidgetEntity(
+                                  images: state.gallery,
+                                  imageIndex: index,
+                                ),
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl: url,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          }),
                         ),
                       ),
-                      child: Image.memory(
-                        state.gallery[index].data,
-                        fit: BoxFit.cover,
-                      ),
-                    )),
+                      if (state.uploadLoading)
+                        Center(
+                          child: SizedBox(
+                            height: 32,
+                            width: 32,
+                            child: CircularProgressIndicator.adaptive(
+                              backgroundColor: ColorsConstants.background,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
             floatingActionButton: FloatingActionButton(
               onPressed: () => cubit.pickImages(context),

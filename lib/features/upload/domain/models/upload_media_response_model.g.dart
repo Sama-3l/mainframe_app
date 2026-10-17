@@ -16,15 +16,3 @@ UploadMediaElementModel _$UploadMediaElementModelFromJson(
 Map<String, dynamic> _$UploadMediaElementModelToJson(
   UploadMediaElementModel instance,
 ) => <String, dynamic>{'filename': instance.filename, 'url': instance.url};
-
-UploadMediaResponseModel _$UploadMediaResponseModelFromJson(
-  Map<String, dynamic> json,
-) => UploadMediaResponseModel(
-  images: (json['images'] as List<dynamic>)
-      .map((e) => UploadMediaElementModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
-
-Map<String, dynamic> _$UploadMediaResponseModelToJson(
-  UploadMediaResponseModel instance,
-) => <String, dynamic>{'images': instance.images};
