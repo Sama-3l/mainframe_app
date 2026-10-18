@@ -47,24 +47,54 @@ class _ImagePreviewState extends State<ImagePreview> {
               ),
               actions: [
                 Padding(
-                  padding: EdgeInsets.only(right: 16),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      minimumSize: Size.zero,
-                      backgroundColor: ColorsConstants.primary,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    onPressed: () => GoRouter.of(context).pop(true),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Text(
-                        "Confirm Upload",
-                        style: TextStyles.labelMedium.copyWith(
-                          color: ColorsConstants.background,
-                        ),
-                      ),
-                    ),
+                  padding: const EdgeInsets.only(right: 16),
+                  child: Center(
+                    widthFactor: 1,
+                    child: widget.params.confirmUpload
+                        ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              minimumSize: Size.zero,
+                              maximumSize: const Size(double.infinity, 48),
+                              backgroundColor: ColorsConstants.primary,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
+                            onPressed: () => GoRouter.of(context).pop(true),
+                            child: Text(
+                              "Confirm Upload",
+                              style: TextStyles.labelMedium.copyWith(
+                                color: ColorsConstants.background,
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                minimumSize: Size.zero,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 12,
+                                ),
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                surfaceTintColor: Colors.transparent,
+                                splashFactory: NoSplash.splashFactory,
+                                overlayColor: Colors.transparent,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.delete,
+                                size: 24,
+                                color: ColorsConstants.destructiveRed,
+                              ),
+                            ),
+                          ),
                   ),
                 ),
               ],
