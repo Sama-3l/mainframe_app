@@ -7,6 +7,8 @@ import 'package:mainframe_app/core/constants/spacers.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/ImagePreviewCubit/image_preview_cubit.dart';
+import 'package:mainframe_app/injection/injection_container.dart';
+// import 'package:pinch_zoom/pinch_zoom.dart';
 
 class ImagePreview extends StatefulWidget {
   const ImagePreview({super.key, required this.params});
@@ -29,13 +31,15 @@ class _ImagePreviewState extends State<ImagePreview> {
 
   @override
   Widget build(BuildContext context) {
-    final gallery = widget.params.images;
     final initialIndex = widget.params.imageIndex;
     return BlocProvider(
-      create: (context) => ImagePreviewCubit(index: initialIndex),
+      create: (context) =>
+          sl<ImagePreviewCubit>()
+            ..initialize(initialIndex, widget.params.images),
       child: BlocBuilder<ImagePreviewCubit, ImagePreviewState>(
         builder: (context, state) {
           final cubit = context.read<ImagePreviewCubit>();
+          final gallery = state.images;
           return Scaffold(
             backgroundColor: ColorsConstants.onBackground,
             appBar: AppBar(
@@ -87,12 +91,25 @@ class _ImagePreviewState extends State<ImagePreview> {
                                 overlayColor: Colors.transparent,
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
-                              onPressed: () {},
-                              child: Icon(
-                                Icons.delete,
-                                size: 24,
-                                color: ColorsConstants.destructiveRed,
+                              onPressed: () => cubit.deleteImage(
+                                context,
+                                gallery[state.index].file.name,
+                                _pageController,
                               ),
+                              child: state.deleteLoading
+                                  ? SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator.adaptive(
+                                        backgroundColor:
+                                            ColorsConstants.destructiveRed,
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.delete,
+                                      size: 24,
+                                      color: ColorsConstants.destructiveRed,
+                                    ),
                             ),
                           ),
                   ),
@@ -113,15 +130,21 @@ class _ImagePreviewState extends State<ImagePreview> {
                       return Center(
                         child: SizedBox(
                           width: double.infinity,
-                          child: gallery[index].bytes != null
-                              ? Image.memory(
-                                  gallery[index].bytes!,
-                                  fit: BoxFit.cover,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl: url,
-                                  fit: BoxFit.cover,
-                                ),
+                          child: InteractiveViewer(
+                            panEnabled: false, // Set it to false
+                            boundaryMargin: EdgeInsets.all(100),
+                            minScale: 0.5,
+                            maxScale: 2,
+                            child: gallery[index].bytes != null
+                                ? Image.memory(
+                                    gallery[index].bytes!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl: url,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
                         ),
                       );
                     },

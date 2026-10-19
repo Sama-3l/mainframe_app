@@ -4,9 +4,11 @@ import 'package:mainframe_app/core/client/api_client.dart';
 import 'package:mainframe_app/core/client/api_service.dart';
 import 'package:mainframe_app/features/gallery/data/datasource/remote/gallery_datasource_remote.dart';
 import 'package:mainframe_app/features/gallery/data/repo/gallery_repo_impl.dart';
+import 'package:mainframe_app/features/gallery/data/usecases/delete_media_usecase.dart';
 import 'package:mainframe_app/features/gallery/data/usecases/get_images_usecase.dart';
 import 'package:mainframe_app/features/gallery/domain/repo/gallery_repo.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/GalleryCubit/gallery_cubit.dart';
+import 'package:mainframe_app/features/gallery/presentation/logic/cubits/ImagePreviewCubit/image_preview_cubit.dart';
 import 'package:mainframe_app/features/upload/data/datasource/remote/upload_datasource_remote.dart';
 import 'package:mainframe_app/features/upload/data/repo/upload_media_repo_impl.dart';
 import 'package:mainframe_app/features/upload/data/usecase/upload_media_usecase.dart';
@@ -38,8 +40,16 @@ Future<void> _galleryDependencies() async {
     () => GetImagesUsecase(sl<GalleryRepo>()),
   );
 
+  sl.registerLazySingleton<DeleteMediaUsecase>(
+    () => DeleteMediaUsecase(sl<GalleryRepo>()),
+  );
+
   sl.registerFactory<GalleryCubit>(
     () => GalleryCubit(sl<GetImagesUsecase>(), sl<UploadMediaUsecase>()),
+  );
+
+  sl.registerFactory<ImagePreviewCubit>(
+    () => ImagePreviewCubit(sl<DeleteMediaUsecase>(), index: 0),
   );
 }
 
