@@ -4,7 +4,13 @@ import 'dart:typed_data';
 class FileEntity {
   final String name;
   final String fileType;
-  FileEntity({required this.name, required this.fileType});
+  final DateTime addedAt;
+
+  FileEntity({
+    required this.name,
+    required this.fileType,
+    required this.addedAt,
+  });
 }
 
 class GalleryEntity {

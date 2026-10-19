@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:mainframe_app/core/constants/spacers.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
@@ -44,7 +45,13 @@ class _ImagePreviewState extends State<ImagePreview> {
             backgroundColor: ColorsConstants.onBackground,
             appBar: AppBar(
               title: Text(
-                gallery[state.index].file.name,
+                (() {
+                  // 2. Predefined Named Format (e.g., Mon, Oct 19, 2026)
+                  String namedFormat = DateFormat.yMd().add_jm().format(
+                    gallery[state.index].file.addedAt,
+                  );
+                  return namedFormat;
+                })(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyles.labelLargeBold,

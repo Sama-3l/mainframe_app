@@ -59,6 +59,7 @@ class GalleryCubit extends Cubit<GalleryState> {
             file: FileEntity(
               name: e.name,
               fileType: e.mimeType ?? lookupMimeType(e.path) ?? 'image/jpeg',
+              addedAt: DateTime.now(),
             ),
             data: "",
             bytes: bytes,

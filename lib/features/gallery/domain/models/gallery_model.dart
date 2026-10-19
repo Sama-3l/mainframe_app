@@ -7,14 +7,23 @@ part 'gallery_model.g.dart';
 class FileModel {
   final String name;
   final String fileType;
-  FileModel({required this.name, required this.fileType});
+  final DateTime addedAt;
+  FileModel({
+    required this.name,
+    required this.fileType,
+    required this.addedAt,
+  });
 
   factory FileModel.fromEntity(FileEntity entity) {
-    return FileModel(name: entity.name, fileType: entity.fileType);
+    return FileModel(
+      name: entity.name,
+      fileType: entity.fileType,
+      addedAt: entity.addedAt,
+    );
   }
 
   FileEntity toEntity() {
-    return FileEntity(name: name, fileType: fileType);
+    return FileEntity(name: name, fileType: fileType, addedAt: addedAt);
   }
 
   factory FileModel.fromJson(Map<String, dynamic> json) =>

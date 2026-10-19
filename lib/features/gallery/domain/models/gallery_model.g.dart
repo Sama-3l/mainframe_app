@@ -9,11 +9,13 @@ part of 'gallery_model.dart';
 FileModel _$FileModelFromJson(Map<String, dynamic> json) => FileModel(
   name: json['name'] as String,
   fileType: json['fileType'] as String,
+  addedAt: DateTime.parse(json['addedAt'] as String),
 );
 
 Map<String, dynamic> _$FileModelToJson(FileModel instance) => <String, dynamic>{
   'name': instance.name,
   'fileType': instance.fileType,
+  'addedAt': instance.addedAt.toIso8601String(),
 };
 
 GalleryModel _$GalleryModelFromJson(Map<String, dynamic> json) => GalleryModel(
