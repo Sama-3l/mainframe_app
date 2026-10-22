@@ -1,6 +1,8 @@
 class Routes {
-  static const mainAppScreen = "/";
+  static const splash = "/";
+  static const mainAppScreen = "/mainApp";
   static const imagePreview = "/imagePreview";
+  static const pair = "/pair";
   // static const splash = "/splash";
   // static const loginAuth = "/loginAuth";
   // static const signUpAuth = "/signUpAuth";

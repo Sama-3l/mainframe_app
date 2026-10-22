@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mainframe_app/core/config/api_config.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/GalleryCubit/gallery_cubit.dart';
@@ -61,8 +61,7 @@ class _HomePageState extends State<HomePage> {
                                 childAspectRatio: 1,
                               ),
                           itemBuilder: ((context, index) {
-                            final url =
-                                "${dotenv.get("API_URL")}/uploads/${state.gallery[index].file.name}";
+                            final name = state.gallery[index].file.name;
                             return InkWell(
                               onTap: () => GoRouter.of(context).pushNamed(
                                 Routes.imagePreview,
@@ -72,7 +71,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               child: CachedNetworkImage(
-                                imageUrl: url,
+                                imageUrl: sl<ApiConfig>().imageUrl(name),
+                                cacheKey: name,
                                 fit: BoxFit.cover,
                               ),
                             );

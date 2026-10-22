@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:mainframe_app/core/config/api_config.dart';
 import 'package:mainframe_app/core/constants/spacers.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
@@ -132,8 +132,7 @@ class _ImagePreviewState extends State<ImagePreview> {
                     controller: _pageController,
                     itemCount: gallery.length,
                     itemBuilder: (context, index) {
-                      final url =
-                          "${dotenv.get("API_URL")}/uploads/${gallery[index].file.name}";
+                      final name = gallery[index].file.name;
                       return Center(
                         child: SizedBox(
                           width: double.infinity,
@@ -148,7 +147,8 @@ class _ImagePreviewState extends State<ImagePreview> {
                                     fit: BoxFit.cover,
                                   )
                                 : CachedNetworkImage(
-                                    imageUrl: url,
+                                    imageUrl: sl<ApiConfig>().imageUrl(name),
+                                    cacheKey: name,
                                     fit: BoxFit.cover,
                                   ),
                           ),
@@ -170,8 +170,7 @@ class _ImagePreviewState extends State<ImagePreview> {
                       separatorBuilder: (context, index) => 8.horizontalSpace,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        final url =
-                            "${dotenv.get("API_URL")}/uploads/${gallery[index].file.name}";
+                        final name = gallery[index].file.name;
                         return InkWell(
                           onTap: () => _pageController.animateToPage(
                             index,
@@ -202,7 +201,10 @@ class _ImagePreviewState extends State<ImagePreview> {
                                         fit: BoxFit.cover,
                                       )
                                     : CachedNetworkImage(
-                                        imageUrl: url,
+                                        imageUrl: sl<ApiConfig>().imageUrl(
+                                          name,
+                                        ),
+                                        cacheKey: name,
                                         fit: BoxFit.cover,
                                       ),
                               ),

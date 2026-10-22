@@ -42,6 +42,8 @@ import 'package:mainframe_app/core/constants/global_variables.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
 import 'package:mainframe_app/features/gallery/presentation/screens/gallery.dart';
 import 'package:mainframe_app/features/gallery/presentation/screens/image_preview.dart';
+import 'package:mainframe_app/features/pair/presentation/screens/pair_screen.dart';
+import 'package:mainframe_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:mainframe_app/router/app_route_constants.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
@@ -135,6 +137,13 @@ class AppRouter {
     },
     routes: [
       GoRoute(
+        name: Routes.splash,
+        path: Routes.splash,
+        builder: (context, state) {
+          return SplashScreen();
+        },
+      ),
+      GoRoute(
         name: Routes.mainAppScreen,
         path: Routes.mainAppScreen,
         builder: (context, state) {
@@ -147,6 +156,13 @@ class AppRouter {
         builder: (context, state) {
           final params = state.extra as ImagePreviewWidgetEntity;
           return ImagePreview(params: params);
+        },
+      ),
+      GoRoute(
+        name: Routes.pair,
+        path: Routes.pair,
+        builder: (context, state) {
+          return PairScreen();
         },
       ),
     ],

@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mainframe_app/core/client/api_client.dart';
 import 'package:mainframe_app/core/client/api_service.dart';
+import 'package:mainframe_app/core/config/api_config.dart';
+import 'package:mainframe_app/core/services/secure_storage.dart';
 import 'package:mainframe_app/features/gallery/data/datasource/remote/gallery_datasource_remote.dart';
 import 'package:mainframe_app/features/gallery/data/repo/gallery_repo_impl.dart';
 import 'package:mainframe_app/features/gallery/data/usecases/delete_media_usecase.dart';
@@ -9,6 +11,8 @@ import 'package:mainframe_app/features/gallery/data/usecases/get_images_usecase.
 import 'package:mainframe_app/features/gallery/domain/repo/gallery_repo.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/GalleryCubit/gallery_cubit.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/ImagePreviewCubit/image_preview_cubit.dart';
+import 'package:mainframe_app/features/pair/presentation/logic/PairScreenCubit/pair_screen_cubit.dart';
+import 'package:mainframe_app/features/splash/presentation/logic/cubits/SplashScreenCubit/splash_screen_cubit.dart';
 import 'package:mainframe_app/features/upload/data/datasource/remote/upload_datasource_remote.dart';
 import 'package:mainframe_app/features/upload/data/repo/upload_media_repo_impl.dart';
 import 'package:mainframe_app/features/upload/data/usecase/upload_media_usecase.dart';
@@ -17,12 +21,17 @@ import 'package:mainframe_app/features/upload/domain/repo/upload_media_repo.dart
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  sl.registerLazySingleton<Dio>(() => ApiClient.createDio());
+  sl.registerLazySingleton<ApiConfig>(() => ApiConfig());
+  sl.registerLazySingleton<SecureStorageService>(() => SecureStorageService());
+  sl.registerLazySingleton<Dio>(
+    () => ApiClient.createDio(sl<SecureStorageService>()),
+  );
 
   // 2. Retrofit API service — singleton, all HTTP declarations in one place
   sl.registerLazySingleton<ApiService>(() => ApiService(sl<Dio>()));
   await _galleryDependencies();
   await _uploadDependencies();
+  await _authDependencies();
 }
 
 Future<void> _galleryDependencies() async {
@@ -66,5 +75,14 @@ Future<void> _uploadDependencies() async {
   // 5. Usecases
   sl.registerLazySingleton<UploadMediaUsecase>(
     () => UploadMediaUsecase(repository: sl<UploadMediaRepo>()),
+  );
+}
+
+Future<void> _authDependencies() async {
+  sl.registerFactory<SplashScreenCubit>(
+    () => SplashScreenCubit(secureStorage: sl<SecureStorageService>()),
+  );
+  sl.registerFactory<PairScreenCubit>(
+    () => PairScreenCubit(sl<SecureStorageService>()),
   );
 }

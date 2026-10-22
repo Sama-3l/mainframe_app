@@ -11,7 +11,7 @@ void main() async {
   Uri? initialUri;
   // final appLinks = AppLinks(); // AppLinks is singleton
   runApp(MyApp(initialUri: initialUri));
-  runApp(MyApp());
+  // runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
