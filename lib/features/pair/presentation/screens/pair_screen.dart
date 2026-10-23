@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -53,7 +51,7 @@ class _PairScreenState extends State<PairScreen> {
         },
         child: BlocBuilder<PairScreenCubit, PairScreenState>(
           builder: (context, state) {
-            final cubit = context.read<PairScreenCubit>();
+            // final cubit = context.read<PairScreenCubit>();
 
             return Scaffold(
               backgroundColor: ColorsConstants.onBackground,

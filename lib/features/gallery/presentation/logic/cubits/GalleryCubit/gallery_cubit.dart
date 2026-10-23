@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
+import 'package:mainframe_app/core/services/secure_storage.dart';
 import 'package:mainframe_app/features/gallery/data/entities/gallery_pagination_entity.dart';
 import 'package:mainframe_app/features/gallery/data/usecases/get_images_usecase.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/gallery_entity.dart';
@@ -17,11 +18,20 @@ import "package:mime/mime.dart";
 part 'gallery_state.dart';
 
 class GalleryCubit extends Cubit<GalleryState> {
+  final SecureStorageService _secureStorageService;
   final GetImagesUsecase _getImagesUsecase;
   final UploadMediaUsecase _uploadMediaUsecase;
 
-  GalleryCubit(this._getImagesUsecase, this._uploadMediaUsecase)
-    : super(GalleryUpdate(gallery: [], loading: true));
+  GalleryCubit(
+    this._secureStorageService,
+    this._getImagesUsecase,
+    this._uploadMediaUsecase,
+  ) : super(GalleryUpdate(gallery: [], loading: true));
+
+  Future<void> unpair(BuildContext context) async {
+    _secureStorageService.deleteAll();
+    GoRouter.of(context).goNamed(Routes.pair);
+  }
 
   Future<void> loadImages(BuildContext context, int page) async {
     final response = await _getImagesUsecase(

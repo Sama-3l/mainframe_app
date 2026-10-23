@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mainframe_app/core/config/api_config.dart';
+import 'package:mainframe_app/core/common/custom_cache_image.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/GalleryCubit/gallery_cubit.dart';
@@ -37,6 +36,16 @@ class _HomePageState extends State<HomePage> {
                   color: ColorsConstants.onBackground,
                 ),
               ),
+
+              actions: [
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 8.0),
+                //   child: IconButton(
+                //     onPressed: () => cubit.unpair(context),
+                //     icon: Icon(Icons.link_off, size: 20),
+                //   ),
+                // ),
+              ],
             ),
             body: state.loading
                 ? Center(
@@ -70,11 +79,7 @@ class _HomePageState extends State<HomePage> {
                                   imageIndex: index,
                                 ),
                               ),
-                              child: CachedNetworkImage(
-                                imageUrl: sl<ApiConfig>().imageUrl(name),
-                                cacheKey: name,
-                                fit: BoxFit.cover,
-                              ),
+                              child: CustomCacheImage(name),
                             );
                           }),
                         ),

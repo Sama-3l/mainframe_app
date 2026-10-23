@@ -11,6 +11,10 @@ import 'package:mainframe_app/features/gallery/data/usecases/get_images_usecase.
 import 'package:mainframe_app/features/gallery/domain/repo/gallery_repo.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/GalleryCubit/gallery_cubit.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/ImagePreviewCubit/image_preview_cubit.dart';
+import 'package:mainframe_app/features/pair/data/datasource/remote/pair_remote_datasource.dart';
+import 'package:mainframe_app/features/pair/data/datasource/usecases/pair_usecase.dart';
+import 'package:mainframe_app/features/pair/data/repo/pair_repo_impl.dart';
+import 'package:mainframe_app/features/pair/domain/repo/pair_repo.dart';
 import 'package:mainframe_app/features/pair/presentation/logic/PairScreenCubit/pair_screen_cubit.dart';
 import 'package:mainframe_app/features/splash/presentation/logic/cubits/SplashScreenCubit/splash_screen_cubit.dart';
 import 'package:mainframe_app/features/upload/data/datasource/remote/upload_datasource_remote.dart';
@@ -31,6 +35,7 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton<ApiService>(() => ApiService(sl<Dio>()));
   await _galleryDependencies();
   await _uploadDependencies();
+  await _pairDependencies();
   await _authDependencies();
 }
 
@@ -54,7 +59,11 @@ Future<void> _galleryDependencies() async {
   );
 
   sl.registerFactory<GalleryCubit>(
-    () => GalleryCubit(sl<GetImagesUsecase>(), sl<UploadMediaUsecase>()),
+    () => GalleryCubit(
+      sl<SecureStorageService>(),
+      sl<GetImagesUsecase>(),
+      sl<UploadMediaUsecase>(),
+    ),
   );
 
   sl.registerFactory<ImagePreviewCubit>(
@@ -78,11 +87,25 @@ Future<void> _uploadDependencies() async {
   );
 }
 
+Future<void> _pairDependencies() async {
+  sl.registerLazySingleton<PairRemoteDatasource>(
+    () => PairRemoteDatasourceImpl(apiService: sl<ApiService>()),
+  );
+
+  // 4. Repository
+  sl.registerLazySingleton<PairRepo>(
+    () => PairRepoImpl(sl<PairRemoteDatasource>()),
+  );
+
+  // 5. Usecases
+  sl.registerLazySingleton<PairUsecase>(() => PairUsecase(sl<PairRepo>()));
+}
+
 Future<void> _authDependencies() async {
   sl.registerFactory<SplashScreenCubit>(
     () => SplashScreenCubit(secureStorage: sl<SecureStorageService>()),
   );
   sl.registerFactory<PairScreenCubit>(
-    () => PairScreenCubit(sl<SecureStorageService>()),
+    () => PairScreenCubit(sl<SecureStorageService>(), sl<PairUsecase>()),
   );
 }

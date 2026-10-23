@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:mainframe_app/core/client/api_response.dart';
 import 'package:mainframe_app/core/constants/api_endpoints.dart';
 import 'package:mainframe_app/features/gallery/domain/models/gallery_model.dart';
+import 'package:mainframe_app/features/pair/domain/models/pair_response_model.dart';
 import 'package:mainframe_app/features/upload/domain/models/delete_media_response_model.dart';
 import 'package:mainframe_app/features/upload/domain/models/upload_media_response_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -29,6 +30,11 @@ abstract class ApiService {
   @DELETE("${ApiEndpoints.images}/{mediaId}")
   Future<ApiResponse<DeleteMediaResponseModel>> deleteImage(
     @Path('mediaId') String mediaId,
+  );
+
+  @POST(ApiEndpoints.pair)
+  Future<ApiResponse<PairResponseModel>> pair(
+    @Body() Map<String, dynamic> body,
   );
   // // ── Invites ───────────────────────────────────────────────────────
 

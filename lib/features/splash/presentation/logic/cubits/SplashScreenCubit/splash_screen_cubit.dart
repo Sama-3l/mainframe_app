@@ -14,6 +14,8 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
 
   Future<void> initialize() async {
     final url = await secureStorage.read(AppConstants.apiURL);
+    // SecureStorageService sec = SecureStorageService();
+    // sec.deleteAll();
     if (url != null && url.isNotEmpty) {
       sl<ApiConfig>().baseUrl = url;
       emit(SplashScreenSuccess());
