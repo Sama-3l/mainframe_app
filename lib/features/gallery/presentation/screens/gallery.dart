@@ -38,13 +38,13 @@ class _HomePageState extends State<HomePage> {
               ),
 
               actions: [
-                // Padding(
-                //   padding: const EdgeInsets.only(right: 8.0),
-                //   child: IconButton(
-                //     onPressed: () => cubit.unpair(context),
-                //     icon: Icon(Icons.link_off, size: 20),
-                //   ),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: IconButton(
+                    onPressed: () => cubit.unpair(context),
+                    icon: Icon(Icons.link_off, size: 20),
+                  ),
+                ),
               ],
             ),
             body: state.loading

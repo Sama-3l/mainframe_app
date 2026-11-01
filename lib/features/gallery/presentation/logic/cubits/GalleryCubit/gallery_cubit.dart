@@ -39,10 +39,11 @@ class GalleryCubit extends Cubit<GalleryState> {
     );
 
     response.fold(
-      (_) {
+      (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("API call failed", style: TextStyles.labelLargeBold),
+            backgroundColor: ColorsConstants.background,
+            content: Text(e.message, style: TextStyles.labelLargeBold),
           ),
         );
         emit(state.copyWith(loading: false));
@@ -113,12 +114,12 @@ class GalleryCubit extends Cubit<GalleryState> {
     );
 
     response.fold(
-      (_) {
+      (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: ColorsConstants.background,
             content: Text(
-              "API call didn't work",
+              e.message,
               style: TextStyles.titleMedium.copyWith(
                 color: ColorsConstants.onBackground,
               ),
