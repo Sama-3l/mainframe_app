@@ -5,6 +5,7 @@ import 'package:mainframe_app/features/pair/domain/models/pair_response_model.da
 
 abstract class PairRemoteDatasource {
   Future<ApiResponse<PairResponseModel>> pair(Map<String, dynamic> body);
+  Future<ApiResponse<void>> unpair(String deviceId);
 }
 
 class PairRemoteDatasourceImpl extends PairRemoteDatasource {
@@ -15,4 +16,8 @@ class PairRemoteDatasourceImpl extends PairRemoteDatasource {
   @override
   Future<ApiResponse<PairResponseModel>> pair(Map<String, dynamic> body) =>
       genericDataSourceMethod(method: () => _apiService.pair(body));
+
+  @override
+  Future<ApiResponse<void>> unpair(String deviceId) =>
+      genericDataSourceMethod(method: () => _apiService.unpair(deviceId));
 }

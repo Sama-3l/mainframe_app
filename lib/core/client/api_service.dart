@@ -36,6 +36,9 @@ abstract class ApiService {
   Future<ApiResponse<PairResponseModel>> pair(
     @Body() Map<String, dynamic> body,
   );
+
+  @POST(ApiEndpoints.unpair)
+  Future<ApiResponse<void>> unpair(@Query('deviceId') String deviceId);
   // // ── Invites ───────────────────────────────────────────────────────
 
   // /// GET /invites/verify?code=<code> — pre-signup validity check, no auth.

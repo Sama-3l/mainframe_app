@@ -6,4 +6,5 @@ abstract final class ApiEndpoints {
   static const String upload = '/uploads';
   static const String images = '/images';
   static const String pair = '/pair';
+  static const String unpair = '/unpair';
 }

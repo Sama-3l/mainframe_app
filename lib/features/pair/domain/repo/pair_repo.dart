@@ -4,4 +4,5 @@ import 'package:mainframe_app/features/pair/domain/entities/pair_response_entity
 
 abstract class PairRepo {
   Future<Either<Failure, PairResponseEntity>> pair(Map<String, dynamic> body);
+  Future<Either<Failure, void>> unpair(String deviceId);
 }

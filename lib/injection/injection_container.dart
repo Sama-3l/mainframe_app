@@ -12,8 +12,9 @@ import 'package:mainframe_app/features/gallery/domain/repo/gallery_repo.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/GalleryCubit/gallery_cubit.dart';
 import 'package:mainframe_app/features/gallery/presentation/logic/cubits/ImagePreviewCubit/image_preview_cubit.dart';
 import 'package:mainframe_app/features/pair/data/datasource/remote/pair_remote_datasource.dart';
-import 'package:mainframe_app/features/pair/data/datasource/usecases/pair_usecase.dart';
+import 'package:mainframe_app/features/pair/data/usecases/pair_usecase.dart';
 import 'package:mainframe_app/features/pair/data/repo/pair_repo_impl.dart';
+import 'package:mainframe_app/features/pair/data/usecases/unpair_usecase.dart';
 import 'package:mainframe_app/features/pair/domain/repo/pair_repo.dart';
 import 'package:mainframe_app/features/pair/presentation/logic/PairScreenCubit/pair_screen_cubit.dart';
 import 'package:mainframe_app/features/splash/presentation/logic/cubits/SplashScreenCubit/splash_screen_cubit.dart';
@@ -63,6 +64,7 @@ Future<void> _galleryDependencies() async {
       sl<SecureStorageService>(),
       sl<GetImagesUsecase>(),
       sl<UploadMediaUsecase>(),
+      sl<UnpairUsecase>(),
     ),
   );
 
@@ -99,6 +101,7 @@ Future<void> _pairDependencies() async {
 
   // 5. Usecases
   sl.registerLazySingleton<PairUsecase>(() => PairUsecase(sl<PairRepo>()));
+  sl.registerLazySingleton<UnpairUsecase>(() => UnpairUsecase(sl<PairRepo>()));
 }
 
 Future<void> _authDependencies() async {

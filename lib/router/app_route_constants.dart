@@ -3,6 +3,7 @@ class Routes {
   static const mainAppScreen = "/mainApp";
   static const imagePreview = "/imagePreview";
   static const pair = "/pair";
+  static const unPair = "/unpair";
   // static const splash = "/splash";
   // static const loginAuth = "/loginAuth";
   // static const signUpAuth = "/signUpAuth";

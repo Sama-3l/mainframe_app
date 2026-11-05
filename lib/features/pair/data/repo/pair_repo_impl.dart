@@ -25,4 +25,13 @@ class PairRepoImpl extends PairRepo {
           return d.toEntity();
         },
       );
+
+  @override
+  Future<Either<Failure, void>> unpair(String deviceId) =>
+      genericRepositoryMethod(
+        method: () async {
+          await _datasource.unpair(deviceId);
+          return;
+        },
+      );
 }
