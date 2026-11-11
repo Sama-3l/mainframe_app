@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mainframe_app/core/common/custom_cache_image.dart';
@@ -21,89 +22,133 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<GalleryCubit>()..loadImages(context, 1),
-      child: BlocBuilder<GalleryCubit, GalleryState>(
-        builder: (context, state) {
-          final cubit = context.read<GalleryCubit>();
-          return Scaffold(
-            backgroundColor: ColorsConstants.onBackground,
-            appBar: AppBar(
-              backgroundColor: ColorsConstants.background,
+      create: (context) => sl<GalleryCubit>()..loadImages(context),
+      child: Gallery(title: "Gallery"),
+    );
+  }
+}
 
-              title: Text(
-                widget.title,
-                style: TextStyles.labelMedium.copyWith(
-                  color: ColorsConstants.onBackground,
+class Gallery extends StatefulWidget {
+  const Gallery({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<Gallery> createState() => _GalleryState();
+}
+
+class _GalleryState extends State<Gallery> {
+  late final ScrollController _scrollController;
+  double _previousOffset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() => _onScroll(context));
+  }
+
+  void _onScroll(BuildContext context) {
+    if (!_scrollController.hasClients) return;
+    final state = context.read<GalleryCubit>().state;
+    final position = _scrollController.position;
+    final currentOffset = _scrollController.position.pixels;
+    // Start loading when 300px from the bottom
+    if (position.pixels >= position.maxScrollExtent - 50 &&
+        !state.loadMoreImages &&
+        currentOffset > _previousOffset) {
+      context.read<GalleryCubit>().loadImages(context);
+    }
+    _previousOffset = currentOffset;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<GalleryCubit, GalleryState>(
+      builder: (context, state) {
+        final cubit = context.read<GalleryCubit>();
+        return Scaffold(
+          backgroundColor: ColorsConstants.onBackground,
+          appBar: AppBar(
+            backgroundColor: ColorsConstants.background,
+
+            title: Text(
+              widget.title,
+              style: TextStyles.labelMedium.copyWith(
+                color: ColorsConstants.onBackground,
+              ),
+            ),
+
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: IconButton(
+                  onPressed: () => cubit.unpair(context),
+                  icon: Icon(Icons.link_off, size: 20),
                 ),
               ),
-
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: IconButton(
-                    onPressed: () => cubit.unpair(context),
-                    icon: Icon(Icons.link_off, size: 20),
+            ],
+          ),
+          body: state.pageLoad
+              ? Center(
+                  child: SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: CircularProgressIndicator.adaptive(
+                      backgroundColor: ColorsConstants.background,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            body: state.loading
-                ? Center(
-                    child: SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: CircularProgressIndicator.adaptive(
-                        backgroundColor: ColorsConstants.background,
+                )
+              : Column(
+                  children: [
+                    Expanded(
+                      child: GridView.builder(
+                        scrollCacheExtent: ScrollCacheExtent.viewport(10000),
+                        controller: _scrollController,
+                        itemCount: state.gallery.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 1,
+                            ),
+                        itemBuilder: ((context, index) {
+                          final name = state.gallery[index].file.name;
+                          return InkWell(
+                            key: ValueKey(name),
+                            onTap: () => GoRouter.of(context).pushNamed(
+                              Routes.imagePreview,
+
+                              extra: ImagePreviewWidgetEntity(
+                                images: state.gallery,
+                                imageIndex: index,
+                              ),
+                            ),
+                            child: CustomCacheImage(name, lowerRes: true),
+                          );
+                        }),
                       ),
                     ),
-                  )
-                : Column(
-                    children: [
-                      Expanded(
-                        child: GridView.builder(
-                          itemCount: state.gallery.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                                childAspectRatio: 1,
-                              ),
-                          itemBuilder: ((context, index) {
-                            final name = state.gallery[index].file.name;
-                            return InkWell(
-                              onTap: () => GoRouter.of(context).pushNamed(
-                                Routes.imagePreview,
-                                extra: ImagePreviewWidgetEntity(
-                                  images: state.gallery,
-                                  imageIndex: index,
-                                ),
-                              ),
-                              child: CustomCacheImage(name),
-                            );
-                          }),
-                        ),
-                      ),
-                      if (state.uploadLoading)
-                        Center(
-                          child: SizedBox(
-                            height: 32,
-                            width: 32,
-                            child: CircularProgressIndicator.adaptive(
-                              backgroundColor: ColorsConstants.background,
-                            ),
+                    if (state.uploadLoading || state.loadMoreImages)
+                      Center(
+                        child: SizedBox(
+                          height: 32,
+                          width: 32,
+                          child: CircularProgressIndicator.adaptive(
+                            backgroundColor: ColorsConstants.background,
                           ),
                         ),
-                    ],
-                  ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => cubit.pickImages(context),
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
-            ),
-          );
-        },
-      ),
+                      ),
+                  ],
+                ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => cubit.pickImages(context),
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+        );
+      },
     );
   }
 }

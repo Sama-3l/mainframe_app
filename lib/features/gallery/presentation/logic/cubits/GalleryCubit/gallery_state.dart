@@ -2,23 +2,31 @@ part of 'gallery_cubit.dart';
 
 sealed class GalleryState {
   final List<GalleryEntity> gallery;
-  final bool loading;
+  final int page;
+  final bool pageLoad;
+  final bool loadMoreImages;
   final bool uploadLoading;
 
   const GalleryState({
     required this.gallery,
-    required this.loading,
+    required this.page,
+    required this.pageLoad,
+    this.loadMoreImages = false,
     this.uploadLoading = false,
   });
 
   GalleryState copyWith({
     List<GalleryEntity>? gallery,
-    bool? loading,
+    bool? pageLoad,
+    bool? loadMoreImages,
+    int? page,
     bool? uploadLoading,
   }) {
     return GalleryUpdate(
       gallery: gallery ?? this.gallery,
-      loading: loading ?? this.loading,
+      pageLoad: pageLoad ?? this.pageLoad,
+      loadMoreImages: loadMoreImages ?? this.loadMoreImages,
+      page: page ?? this.page,
       uploadLoading: uploadLoading ?? this.uploadLoading,
     );
   }
@@ -27,7 +35,9 @@ sealed class GalleryState {
 final class GalleryUpdate extends GalleryState {
   GalleryUpdate({
     required super.gallery,
-    required super.loading,
+    required super.page,
+    super.loadMoreImages,
+    required super.pageLoad,
     super.uploadLoading,
   });
 }

@@ -30,7 +30,7 @@ class GalleryCubit extends Cubit<GalleryState> {
     this._getImagesUsecase,
     this._uploadMediaUsecase,
     this._unpairUsecase,
-  ) : super(GalleryUpdate(gallery: [], loading: true));
+  ) : super(GalleryUpdate(gallery: [], page: 1, pageLoad: true));
 
   Future<void> unpair(BuildContext context) async {
     // _secureStorageService.deleteAll();
@@ -63,9 +63,12 @@ class GalleryCubit extends Cubit<GalleryState> {
     }
   }
 
-  Future<void> loadImages(BuildContext context, int page) async {
+  Future<void> loadImages(BuildContext context) async {
+    if (state.page != 1) {
+      emit(state.copyWith(loadMoreImages: true));
+    }
     final response = await _getImagesUsecase(
-      GalleryPaginationEntity(page: page, limit: 20),
+      GalleryPaginationEntity(page: state.page, limit: 20),
     );
 
     response.fold(
@@ -76,10 +79,22 @@ class GalleryCubit extends Cubit<GalleryState> {
             content: Text(e.message, style: TextStyles.labelLargeBold),
           ),
         );
-        emit(state.copyWith(loading: false));
+        if (state.page == 1) {
+          emit(state.copyWith(pageLoad: false));
+        } else {
+          emit(state.copyWith(loadMoreImages: false));
+        }
       },
       (response) {
-        emit(state.copyWith(gallery: response, loading: false));
+        state.gallery.addAll(response);
+        if (state.page == 1) {
+          emit(state.copyWith(pageLoad: false));
+        } else {
+          emit(state.copyWith(loadMoreImages: false));
+        }
+        if (response.isNotEmpty) {
+          emit(state.copyWith(page: state.page + 1));
+        }
       },
     );
   }
@@ -155,7 +170,7 @@ class GalleryCubit extends Cubit<GalleryState> {
         );
       },
       (response) async {
-        await loadImages(context, 1);
+        await loadImages(context);
         emit(state.copyWith(uploadLoading: false));
       },
     );

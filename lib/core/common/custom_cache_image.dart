@@ -7,7 +7,8 @@ import 'package:mainframe_app/injection/injection_container.dart';
 
 class CustomCacheImage extends StatelessWidget {
   final String name;
-  const CustomCacheImage(this.name, {super.key});
+  final bool lowerRes;
+  const CustomCacheImage(this.name, {super.key, this.lowerRes = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class CustomCacheImage extends StatelessWidget {
       builder: (context, snap) {
         if (!snap.hasData) return const SizedBox.shrink();
         return CachedNetworkImage(
+          scale: lowerRes ? 0.1 : 1,
           imageUrl: sl<ApiConfig>().imageUrl(name),
           cacheKey: name,
           httpHeaders: {'Authorization': 'Bearer ${snap.data}'},
