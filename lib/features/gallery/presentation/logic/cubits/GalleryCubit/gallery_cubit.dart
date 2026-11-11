@@ -87,10 +87,7 @@ class GalleryCubit extends Cubit<GalleryState> {
   Future<void> pickImages(BuildContext context) async {
     try {
       final picker = ImagePicker();
-      final List<XFile> picked = await picker.pickMultiImage(
-        imageQuality: 85,
-        limit: 10,
-      );
+      final List<XFile> picked = await picker.pickMultiImage(imageQuality: 100);
 
       if (picked.isEmpty || !context.mounted) return;
       final files = await Future.wait(
