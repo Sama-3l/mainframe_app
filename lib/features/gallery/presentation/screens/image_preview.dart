@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -127,6 +128,8 @@ class _ImagePreviewState extends State<ImagePreview> {
                 Expanded(
                   child: PageView.builder(
                     pageSnapping: true,
+                    allowImplicitScrolling: true,
+                    scrollCacheExtent: ScrollCacheExtent.viewport(10000),
                     onPageChanged: (index) => cubit.updateIndex(index),
                     controller: _pageController,
                     itemCount: gallery.length,
@@ -161,6 +164,8 @@ class _ImagePreviewState extends State<ImagePreview> {
                   child: SizedBox(
                     height: 40,
                     child: ListView.separated(
+                      scrollCacheExtent: ScrollCacheExtent.viewport(10000),
+
                       itemCount: gallery.length,
                       separatorBuilder: (context, index) => 8.horizontalSpace,
                       scrollDirection: Axis.horizontal,

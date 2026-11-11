@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mainframe_app/core/client/api_response.dart';
 import 'package:mainframe_app/core/constants/constants.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/core/services/secure_storage.dart';
@@ -30,7 +31,7 @@ class GalleryCubit extends Cubit<GalleryState> {
     this._getImagesUsecase,
     this._uploadMediaUsecase,
     this._unpairUsecase,
-  ) : super(GalleryUpdate(gallery: [], page: 1, pageLoad: true));
+  ) : super(GalleryUpdate(gallery: [], pageLoad: true));
 
   Future<void> unpair(BuildContext context) async {
     // _secureStorageService.deleteAll();
@@ -63,12 +64,24 @@ class GalleryCubit extends Cubit<GalleryState> {
     }
   }
 
+  void updateImages(List<GalleryEntity> gallery) {
+    int initial = state.gallery.indexWhere((e) => e == null);
+    int p = 0;
+    for (int i = initial; i < initial + gallery.length; i++) {
+      state.gallery[i] = gallery[p++];
+    }
+    emit(state.copyWith());
+  }
+
   Future<void> loadImages(BuildContext context) async {
-    if (state.page != 1) {
+    if (!(state.paginationMeta == null)) {
       emit(state.copyWith(loadMoreImages: true));
     }
     final response = await _getImagesUsecase(
-      GalleryPaginationEntity(page: state.page, limit: 20),
+      GalleryPaginationEntity(
+        page: (state.paginationMeta?.page ?? 0) + 1,
+        limit: 20,
+      ),
     );
 
     response.fold(
@@ -79,22 +92,32 @@ class GalleryCubit extends Cubit<GalleryState> {
             content: Text(e.message, style: TextStyles.labelLargeBold),
           ),
         );
-        if (state.page == 1) {
+        if (state.paginationMeta == null) {
           emit(state.copyWith(pageLoad: false));
         } else {
           emit(state.copyWith(loadMoreImages: false));
         }
       },
       (response) {
-        state.gallery.addAll(response);
-        if (state.page == 1) {
+        if (state.paginationMeta == null) {
+          emit(
+            state.copyWith(
+              gallery: List<GalleryEntity?>.filled(
+                response.paginationMeta.total,
+                null,
+              ),
+            ),
+          );
+        }
+        updateImages(response.gallery);
+
+        // state.gallery.addAll(response.gallery);
+        if (state.paginationMeta == null) {
           emit(state.copyWith(pageLoad: false));
         } else {
           emit(state.copyWith(loadMoreImages: false));
         }
-        if (response.isNotEmpty) {
-          emit(state.copyWith(page: state.page + 1));
-        }
+        emit(state.copyWith(paginationMeta: response.paginationMeta));
       },
     );
   }

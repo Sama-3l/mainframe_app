@@ -21,6 +21,7 @@ class CustomCacheImage extends StatelessWidget {
           imageUrl: sl<ApiConfig>().imageUrl(name),
           cacheKey: name,
           httpHeaders: {'Authorization': 'Bearer ${snap.data}'},
+          placeholder: (context, url) => Container(color: Colors.grey.shade700),
           fit: BoxFit.cover,
           errorWidget: (_, __, ___) => const Icon(Icons.broken_image),
         );
