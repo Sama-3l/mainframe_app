@@ -54,7 +54,7 @@ class _ImagePreviewState extends State<ImagePreview> {
                 })(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyles.labelLargeBold,
+                style: TextStyles.labelMedium,
               ),
               actions: [
                 Padding(

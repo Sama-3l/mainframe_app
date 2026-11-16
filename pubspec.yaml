@@ -114,6 +114,72 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: BonaNova-Regular
+      fonts:
+        - asset: assets/fonts/Bona_Nova/BonaNova-Bold.ttf
+    - family: BonaNova-Italic
+      fonts:
+        - asset: assets/fonts/Bona_Nova/BonaNova-Italic.ttf
+    - family: BonaNova-Regular
+      fonts:
+        - asset: assets/fonts/Bona_Nova/BonaNova-Regular.ttf
+    
+    # Italic fonts here
+    - family: Geist-Thin
+      fonts:
+        - asset: assets/fonts/Geist/Geist-Thin.ttf
+    - family: Geist-ThinItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-ThinItalic.ttf
+    - family: Geist-ExtraLight
+      fonts:
+        - asset: assets/fonts/Geist/Geist-ExtraLight.ttf
+    - family: Geist-ExtraLightItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-ExtraLightItalic.ttf
+    - family: Geist-Light
+      fonts:
+        - asset: assets/fonts/Geist/Geist-Light.ttf
+    - family: Geist-LightItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-LightItalic.ttf
+    - family: Geist
+      fonts:
+        - asset: assets/fonts/Geist/Geist-Regular.ttf
+    - family: Geist-Italic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-Italic.ttf
+    - family: Geist-Medium
+      fonts:
+        - asset: assets/fonts/Geist/Geist-Medium.ttf
+    - family: Geist-MediumItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-MediumItalic.ttf
+    - family: Geist-SemiBold
+      fonts:
+        - asset: assets/fonts/Geist/Geist-SemiBold.ttf
+    - family: Geist-SemiBoldItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-SemiBoldItalic.ttf
+    - family: Geist-Bold
+      fonts:
+        - asset: assets/fonts/Geist/Geist-Bold.ttf
+    - family: Geist-BoldItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-BoldItalic.ttf
+    - family: Geist-ExtraBold
+      fonts:
+        - asset: assets/fonts/Geist/Geist-ExtraBold.ttf
+    - family: Geist-ExtraBoldItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-ExtraBoldItalic.ttf
+    - family: Geist-Black
+      fonts:
+        - asset: assets/fonts/Geist/Geist-Black.ttf
+    - family: Geist-BlackItalic
+      fonts:
+        - asset: assets/fonts/Geist/Geist-BlackItalic.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -36,7 +36,7 @@ class ImagePreviewCubit extends Cubit<ImagePreviewState> {
             backgroundColor: ColorsConstants.onBackground,
             content: Text(
               "API call failed",
-              style: TextStyles.labelLargeBold.copyWith(
+              style: TextStyles.labelMedium.copyWith(
                 color: ColorsConstants.background,
               ),
             ),

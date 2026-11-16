@@ -48,10 +48,7 @@ class GalleryCubit extends Cubit<GalleryState> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: ColorsConstants.background,
-          content: Text(
-            "Device ID Not Found",
-            style: TextStyles.labelLargeBold,
-          ),
+          content: Text("Device ID Not Found", style: TextStyles.labelMedium),
           action: SnackBarAction(
             label: "Re-Pair ?",
             onPressed: () {
@@ -89,7 +86,7 @@ class GalleryCubit extends Cubit<GalleryState> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: ColorsConstants.background,
-            content: Text(e.message, style: TextStyles.labelLargeBold),
+            content: Text(e.message, style: TextStyles.labelMedium),
           ),
         );
         if (state.paginationMeta == null) {

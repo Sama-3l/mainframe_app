@@ -3,29 +3,88 @@
 import 'package:flutter/material.dart';
 
 abstract class Fonts {
-  static String get clashDisplaySemiBold => 'ClashDisplay-SemiBold';
-  static String get clashDisplay => 'ClashDisplay-Regular';
-  static String get clashDisplayMedium => 'ClashDisplay-Medium';
-  static String get clashDisplayBold => 'ClashDisplay-Bold';
-  static String get clashDisplayLight => 'ClashDisplay-Light';
-  static String get clashDisplayExtraLight => 'ClashDisplay-ExtraLight';
+  static String get bonoNova => 'BonaNova-Regular';
+  static String get bonoNovaItalic => 'BonaNova-Italic';
+  static String get bonoNovaBold => 'BonaNova-Bold';
 
-  static String get fustatExtraBold => 'Fustat-ExtraBold';
-  static String get fustatBold => 'Fustat-Bold';
-  static String get fustatSemiBold => 'Fustat-SemiBold';
-  static String get fustatMedium => 'Fustat-Medium';
-  static String get fustat => 'Fustat';
-  static String get fustatLight => 'Fustat-Light';
-  static String get fustatExtraLight => 'Fustat-ExtraLight';
+  static String get geistThin => 'Geist-Thin';
+  static String get geistExtraLight => 'Geist-ExtraLight';
+  static String get geistLight => 'Geist-Light';
+  static String get geist => 'Geist';
+  static String get geistMedium => 'Geist-Medium';
+  static String get geistSemiBold => 'Geist-SemiBold';
+  static String get geistBold => 'Geist-Bold';
+  static String get geistExtraBold => 'Geist-ExtraBold';
+  static String get geistBlack => 'Geist-Black';
+
+  static String get geistThinItalic => 'Geist-ThinItalic';
+  static String get geistExtraLightItalic => 'Geist-ExtraLightItalic';
+  static String get geistLightItalic => 'Geist-LightItalic';
+  static String get geistItalic => 'Geist-Italic';
+  static String get geistMediumItalic => 'Geist-MediumItalic';
+  static String get geistSemiBoldItalic => 'Geist-SemiBoldItalic';
+  static String get geistBoldItalic => 'Geist-BoldItalic';
+  static String get geistExtraBoldItalic => 'Geist-ExtraBoldItalic';
+  static String get geistBlackItalic => 'Geist-BlackItalic';
 }
 
 abstract class ColorsConstants {
   // APP COLORS
   static bool isDarkMode = false;
 
-  static Color get _backgroundLight => const Color(0xffFAFAFF);
+  static Color get _greenChannelPrimary => const Color(0xff16DB65);
 
-  static Color get _backgroundDark => const Color(0xff161719);
+  static Color get _greenChannel100 => const Color(0xff058C42);
+
+  static Color get _greenChannel200 => const Color(0xff04471C);
+
+  static Color get _greenChannel300 => const Color(0xff0D2818);
+
+  static Color get _redChannelPrimary => const Color(0xffFF1744);
+
+  static Color get _redChannel100 => const Color(0xffC90032);
+
+  static Color get _redChannel200 => const Color(0xff8C0026);
+
+  static Color get _redChannel300 => const Color(0xff380014);
+
+  static Color get _blueChannelPrimary => const Color(0xff00A3FF);
+
+  static Color get _blueChannel100 => const Color(0xff0866E8);
+
+  static Color get _blueChannel200 => const Color(0xff0645A8);
+
+  static Color get _blueChannel300 => const Color(0xff0A2045);
+
+  static Color get _yellowPlatePrimary => const Color(0xffFFD600);
+
+  static Color get _yellowPlate100 => const Color(0xffE6B800);
+
+  static Color get _yellowPlate200 => const Color(0xff997A00);
+
+  static Color get _yellowPlate300 => const Color(0xff332900);
+
+  static Color get _magentaPlatePrimary => const Color(0xffFF1F94);
+
+  static Color get _magentaPlate100 => const Color(0xffCC006B);
+
+  static Color get _magentaPlate200 => const Color(0xff7A0040);
+
+  static Color get _magentaPlate300 => const Color(0xff290015);
+
+  static Color get _paperWhitePrimary => const Color(0xff020202);
+
+  static Color get _paperWhite100 => const Color(0xff9A968C);
+
+  static Color get _paperWhite200 => const Color(0xff67655E);
+
+  static Color get _inkBlackPrimary => const Color(0xff020202);
+
+  //DELETE
+
+  static Color get _backgroundLight => const Color(0xffF0EDEE);
+
+  static Color get _backgroundDark => const Color(0xff020202);
 
   static Color get _primaryColor => const Color(0xff2C26B5);
 
@@ -65,112 +124,152 @@ abstract class ColorsConstants {
 
 class TextStyles {
   //Fustat fonts
-  static TextStyle get _fustatExtraBold =>
-      TextStyle(fontFamily: Fonts.fustatExtraBold, fontWeight: FontWeight.w800);
-  static TextStyle get _fustatBold =>
-      TextStyle(fontFamily: Fonts.fustatBold, fontWeight: FontWeight.w700);
-  static TextStyle get _fustatSemiBold =>
-      TextStyle(fontFamily: Fonts.fustatSemiBold, fontWeight: FontWeight.w600);
-  static TextStyle get _fustatMedium =>
-      TextStyle(fontFamily: Fonts.fustatMedium, fontWeight: FontWeight.w500);
-  static TextStyle get _fustat =>
-      TextStyle(fontFamily: Fonts.fustat, fontWeight: FontWeight.w400);
-  static TextStyle get _fustatLight =>
-      TextStyle(fontFamily: Fonts.fustatLight, fontWeight: FontWeight.w300);
-  static TextStyle get _fustatExtraLight =>
-      TextStyle(fontFamily: Fonts.fustatLight, fontWeight: FontWeight.w300);
-
-  //Clash Display fonts
-  static TextStyle get _clashDisplayBold => TextStyle(
-    fontFamily: Fonts.clashDisplayBold,
-    fontWeight: FontWeight.w700,
+  static TextStyle get _geistExtraBold =>
+      TextStyle(fontFamily: Fonts.geistExtraBold, fontWeight: FontWeight.w800);
+  static TextStyle get _geistExtraBoldItalic => TextStyle(
+    fontFamily: Fonts.geistExtraBoldItalic,
+    fontWeight: FontWeight.w800,
   );
-  static TextStyle get _clashDisplaySemiBold => TextStyle(
-    fontFamily: Fonts.clashDisplaySemiBold,
+  static TextStyle get _geistBold =>
+      TextStyle(fontFamily: Fonts.geistBold, fontWeight: FontWeight.w700);
+  static TextStyle get _geistBoldItalic =>
+      TextStyle(fontFamily: Fonts.geistBoldItalic, fontWeight: FontWeight.w700);
+  static TextStyle get _geistSemiBold =>
+      TextStyle(fontFamily: Fonts.geistSemiBold, fontWeight: FontWeight.w600);
+  static TextStyle get _geistSemiBoldItalic => TextStyle(
+    fontFamily: Fonts.geistSemiBoldItalic,
     fontWeight: FontWeight.w600,
   );
-  static TextStyle get _clashDisplayMedium => TextStyle(
-    fontFamily: Fonts.clashDisplayMedium,
+  static TextStyle get _geistMedium =>
+      TextStyle(fontFamily: Fonts.geistMedium, fontWeight: FontWeight.w500);
+  static TextStyle get _geistMediumItalic => TextStyle(
+    fontFamily: Fonts.geistMediumItalic,
     fontWeight: FontWeight.w500,
   );
-  static TextStyle get _clashDisplay =>
-      TextStyle(fontFamily: Fonts.clashDisplay, fontWeight: FontWeight.w400);
-  static TextStyle get _clashDisplayLight => TextStyle(
-    fontFamily: Fonts.clashDisplayLight,
+  static TextStyle get _geist =>
+      TextStyle(fontFamily: Fonts.geist, fontWeight: FontWeight.w400);
+  static TextStyle get _geistItalic =>
+      TextStyle(fontFamily: Fonts.geistItalic, fontWeight: FontWeight.w400);
+  static TextStyle get _geistLight =>
+      TextStyle(fontFamily: Fonts.geistLight, fontWeight: FontWeight.w300);
+  static TextStyle get _geistLightItalic => TextStyle(
+    fontFamily: Fonts.geistLightItalic,
     fontWeight: FontWeight.w300,
   );
-  static TextStyle get _clashDisplayExtraLight => TextStyle(
-    fontFamily: Fonts.clashDisplayLight,
+  static TextStyle get _geistExtraLight =>
+      TextStyle(fontFamily: Fonts.geistLight, fontWeight: FontWeight.w300);
+  static TextStyle get _geistExtraLightItalic => TextStyle(
+    fontFamily: Fonts.geistLightItalic,
     fontWeight: FontWeight.w300,
   );
 
-  //App font styles
-  /// 24px, -0.6, Medium
-  static TextStyle get heading => _clashDisplayMedium.copyWith(
-    letterSpacing: -0.6,
+  //Clash Display fonts
+  static TextStyle get _bonoNova =>
+      TextStyle(fontFamily: Fonts.bonoNova, fontWeight: FontWeight.w400);
+  static TextStyle get _bonoNovaItalic =>
+      TextStyle(fontFamily: Fonts.bonoNovaItalic, fontWeight: FontWeight.w400);
+  static TextStyle get _bonoNovaBold =>
+      TextStyle(fontFamily: Fonts.bonoNovaBold, fontWeight: FontWeight.w400);
+
+  /// 40px, -5%, BonoNova
+  static TextStyle get titleLarge => _bonoNova.copyWith(
+    letterSpacing: -2,
+    fontSize: 40,
+    color: ColorsConstants.onBackground,
+  );
+
+  /// 24px, -5%, BonoNova
+  static TextStyle get titleMedium => _bonoNova.copyWith(
+    letterSpacing: -1.2,
     fontSize: 24,
     color: ColorsConstants.onBackground,
   );
 
-  /// 16px, -0.4, ExtraBold
-  static TextStyle get titleMedium => _fustatExtraBold.copyWith(
-    letterSpacing: -0.4,
+  /// 16px, -5%, BonoNova
+  static TextStyle get titleSmall => _bonoNova.copyWith(
+    letterSpacing: -0.8,
     fontSize: 16,
     color: ColorsConstants.onBackground,
   );
 
-  /// 12px, -0.3, ExtraBold
-  static TextStyle get titleSmall => _fustatExtraBold.copyWith(
-    letterSpacing: -0.3,
+  /// 12px, 8px, -5%, BonoNova
+  static TextStyle get captionLarge => _bonoNova.copyWith(
+    letterSpacing: -0.6,
     fontSize: 12,
+    height: 8,
     color: ColorsConstants.onBackground,
   );
 
-  /// 12px, Medium
-  static TextStyle get bodyMedium => _fustat.copyWith(
+  /// 12px, 8px, -10%, BonoNova
+  static TextStyle get captionCompressed => _bonoNova.copyWith(
+    letterSpacing: -1.2,
     fontSize: 12,
+    height: 8,
     color: ColorsConstants.onBackground,
-    letterSpacing: -0.3,
   );
 
-  /// 16px, -0.1, Regular
-  static TextStyle get bodyLarge => _fustat.copyWith(
+  /// 8px, 8px, -10%, BonoNova
+  static TextStyle get captionSmall => _bonoNova.copyWith(
+    letterSpacing: -0.8,
+    fontSize: 8,
+    height: 8,
+    color: ColorsConstants.onBackground,
+  );
+
+  /// 24px, -5%, Regular, Geist
+  static TextStyle get subtitle => _geist.copyWith(
+    letterSpacing: -1.2,
+    fontSize: 24,
+    color: ColorsConstants.onBackground,
+  );
+
+  /// 16px, -5%, Regular, Geist
+  static TextStyle get button => _geist.copyWith(
+    letterSpacing: -0.8,
     fontSize: 16,
     color: ColorsConstants.onBackground,
-    letterSpacing: -0.1,
   );
 
-  /// 10px, Regular
-  static TextStyle get bodySmall =>
-      _fustat.copyWith(fontSize: 10, color: ColorsConstants.onBackground);
+  /// 16px, -5%, Semi-Bold, Geist
+  static TextStyle get buttonBold => _geistSemiBold.copyWith(
+    letterSpacing: -0.8,
+    fontSize: 16,
+    color: ColorsConstants.onBackground,
+  );
 
-  /// 12px, -0.1, Semi-Bold, Clash
-  static TextStyle get labelLargeBold => _clashDisplaySemiBold.copyWith(
+  /// 12px, -5%, Medium, Geist
+  static TextStyle get bodyMedium => _geistMedium.copyWith(
+    letterSpacing: -0.6,
     fontSize: 12,
     color: ColorsConstants.onBackground,
   );
 
-  /// 12px, Regular, Clash
-  static TextStyle get labelLarge =>
-      _clashDisplay.copyWith(fontSize: 12, color: ColorsConstants.onBackground);
+  /// 12px, -5%, Regular, Geist
+  static TextStyle get body => _geist.copyWith(
+    letterSpacing: -0.6,
+    fontSize: 12,
+    color: ColorsConstants.onBackground,
+  );
 
-  /// 10px, -0.5, Bold
-  static TextStyle get labelMedium => _fustatBold.copyWith(
+  /// 12px, -2.5%, Regular, Geist
+  static TextStyle get bodySmall => _geist.copyWith(
+    letterSpacing: -0.25,
     fontSize: 10,
-    letterSpacing: -0.5,
     color: ColorsConstants.onBackground,
   );
 
-  /// 8px, Semi-Bold, Clash
-  static TextStyle get labelSmall => _clashDisplaySemiBold.copyWith(
-    fontSize: 8,
+  /// 10px, 10px, -2.5%, Semi-Bold, Geist
+  static TextStyle get labelMedium => _geistMedium.copyWith(
+    letterSpacing: -0.25,
+    fontSize: 10,
+    height: 10,
     color: ColorsConstants.onBackground,
   );
 
-  /// 8px, -0.4, Bold
-  static TextStyle get caption => _fustatBold.copyWith(
-    fontSize: 8,
-    letterSpacing: -0.4,
+  /// 10px, 10px, -2.5%, Semi-Bold, Geist
+  static TextStyle get labelSmall => _geistSemiBold.copyWith(
+    letterSpacing: -0.3,
+    fontSize: 6,
     color: ColorsConstants.onBackground,
   );
 }
