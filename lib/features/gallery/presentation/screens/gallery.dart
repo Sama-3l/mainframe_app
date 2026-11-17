@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mainframe_app/core/common/custom_cache_image.dart';
-import 'package:mainframe_app/core/common/svg_builder.dart';
+import 'package:intl/intl.dart';
+import 'package:mainframe_app/core/common/functions/methods.dart';
+import 'package:mainframe_app/core/common/widgets/custom_cache_image.dart';
+import 'package:mainframe_app/core/common/widgets/svg_builder.dart';
 import 'package:mainframe_app/core/constants/assets.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/gallery_entity.dart';
@@ -56,8 +58,8 @@ class _GalleryState extends State<Gallery> {
     final state = context.read<GalleryCubit>().state;
     final position = _scrollController.position;
     final currentOffset = _scrollController.position.pixels;
-    // Start loading when 300px from the bottom
-    if (position.pixels >= position.maxScrollExtent - 50 &&
+    final height = MediaQuery.of(context).size.height;
+    if (position.pixels % height >= 300 &&
         !state.loadMoreImages &&
         currentOffset > _previousOffset &&
         (state.paginationMeta?.hasNextPage ?? false)) {
@@ -75,9 +77,22 @@ class _GalleryState extends State<Gallery> {
       child: BlocBuilder<GalleryCubit, GalleryState>(
         builder: (context, state) {
           final cubit = context.read<GalleryCubit>();
+          final gallery = [MapEntry(DateTime.now(), state.gallery)];
+          // Compute once, e.g. in build() before the CustomScrollView
+          // final allImages = gallery.expand((e) => e.value).toList();
+
+          // // Where each day's images start inside allImages
+          // final startIndexes = <int>[];
+          // var running = 0;
+          // for (final group in gallery) {
+          //   startIndexes.add(running);
+          //   running += group.value.length;
+          // }
           return Scaffold(
             backgroundColor: ColorsConstants.background,
             body: CustomScrollView(
+              controller: _scrollController,
+              scrollCacheExtent: ScrollCacheExtent.viewport(10000),
               slivers: [
                 SliverAppBar(
                   backgroundColor: ColorsConstants.background,
@@ -167,36 +182,81 @@ class _GalleryState extends State<Gallery> {
                     ),
                   )
                 else ...[
-                  SliverGrid.builder(
-                    itemCount: state.gallery.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: 1,
-                        ),
-                    itemBuilder: (context, index) {
-                      final name = state.gallery[index]?.file.name;
-                      if (name == null) {
-                        return Container(color: Colors.grey.shade700);
-                      }
-                      return InkWell(
-                        key: ValueKey(name),
-                        onTap: () => GoRouter.of(context).pushNamed(
-                          Routes.imagePreview,
-                          extra: ImagePreviewWidgetEntity(
-                            images: state.gallery
-                                .whereType<GalleryEntity>()
-                                .toList(),
-                            imageIndex: index,
+                  for (var g = 0; g < gallery.length; g++) ...[
+                    SliverPadding(
+                      padding: EdgeInsetsGeometry.all(16),
+                      sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                          child: Row(
+                            children: [
+                              Text.rich(
+                                TextSpan(
+                                  style: TextStyles.subtitle,
+                                  children: [
+                                    TextSpan(
+                                      text: gallery[g].key.day.toString(),
+                                    ),
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.top,
+                                      child: Transform.translate(
+                                        offset: const Offset(1, -2),
+                                        child: Text(
+                                          Methods.ordinalSuffix(
+                                            gallery[g].key.day,
+                                          ),
+                                          style: TextStyles.subtitle.copyWith(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          " ${DateFormat.MMM().format(gallery[g].key)} ",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              SvgBuilder(
+                                iconPath: AppAssets.svgIcons.edit,
+                                height: 18,
+                              ),
+                            ],
                           ),
                         ),
-                        child: CustomCacheImage(name, lowerRes: true),
-                      );
-                    },
-                  ),
-
+                      ),
+                    ),
+                    SliverGrid.builder(
+                      itemCount: gallery[g].value.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 1,
+                          ),
+                      itemBuilder: (context, index) {
+                        final name = state.gallery[index]?.file.name;
+                        if (name == null) {
+                          return Container(color: Colors.grey.shade700);
+                        }
+                        return InkWell(
+                          key: ValueKey(name),
+                          onTap: () => GoRouter.of(context).pushNamed(
+                            Routes.imagePreview,
+                            extra: ImagePreviewWidgetEntity(
+                              images: state.gallery
+                                  .whereType<GalleryEntity>()
+                                  .toList(),
+                              imageIndex: index,
+                            ),
+                          ),
+                          child: CustomCacheImage(name, lowerRes: true),
+                        );
+                      },
+                    ),
+                  ],
                   if (state.uploadLoading || state.loadMoreImages)
                     SliverToBoxAdapter(
                       child: Padding(

@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:mainframe_app/core/common/custom_cache_image.dart';
+import 'package:mainframe_app/core/common/widgets/custom_cache_image.dart';
 import 'package:mainframe_app/core/constants/spacers.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
