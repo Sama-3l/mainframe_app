@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element
 
 import 'package:flutter/material.dart';
+import 'package:mainframe_app/core/constants/enums.dart';
 
 abstract class Fonts {
   static String get bonoNova => 'BonaNova-Regular';
@@ -32,94 +33,132 @@ abstract class ColorsConstants {
   // APP COLORS
   static bool isDarkMode = false;
 
-  static Color get _greenChannelPrimary => const Color(0xff16DB65);
+  static PrimaryTheme theme = PrimaryTheme.greenChannel;
 
-  static Color get _greenChannel100 => const Color(0xff058C42);
+  static Color calculateColor(ColorType colorType) {
+    switch (colorType) {
+      case ColorType.primary:
+        switch (theme) {
+          case PrimaryTheme.greenChannel:
+            return greenChannelPrimary;
+          case PrimaryTheme.redChannel:
+            return redChannelPrimary;
+          case PrimaryTheme.blueChannel:
+            return blueChannelPrimary;
+          case PrimaryTheme.magentaPlate:
+            return magentaPlatePrimary;
+          case PrimaryTheme.yellowPlate:
+            return yellowPlatePrimary;
+        }
+      case ColorType.secondary:
+        switch (theme) {
+          case PrimaryTheme.greenChannel:
+            return greenChannel100;
+          case PrimaryTheme.redChannel:
+            return redChannel100;
+          case PrimaryTheme.blueChannel:
+            return blueChannel100;
+          case PrimaryTheme.magentaPlate:
+            return magentaPlate100;
+          case PrimaryTheme.yellowPlate:
+            return yellowPlate100;
+        }
+      case ColorType.tertiary:
+        switch (theme) {
+          case PrimaryTheme.greenChannel:
+            return greenChannel200;
+          case PrimaryTheme.redChannel:
+            return redChannel200;
+          case PrimaryTheme.blueChannel:
+            return blueChannel200;
+          case PrimaryTheme.magentaPlate:
+            return magentaPlate200;
+          case PrimaryTheme.yellowPlate:
+            return yellowPlate200;
+        }
+      case ColorType.quaternary:
+        switch (theme) {
+          case PrimaryTheme.greenChannel:
+            return greenChannel300;
+          case PrimaryTheme.redChannel:
+            return redChannel300;
+          case PrimaryTheme.blueChannel:
+            return blueChannel300;
+          case PrimaryTheme.magentaPlate:
+            return magentaPlate300;
+          case PrimaryTheme.yellowPlate:
+            return yellowPlate300;
+        }
+    }
+  }
 
-  static Color get _greenChannel200 => const Color(0xff04471C);
+  static Color get greenChannelPrimary => const Color(0xff16DB65);
 
-  static Color get _greenChannel300 => const Color(0xff0D2818);
+  static Color get greenChannel100 => const Color(0xff058C42);
 
-  static Color get _redChannelPrimary => const Color(0xffFF1744);
+  static Color get greenChannel200 => const Color(0xff04471C);
 
-  static Color get _redChannel100 => const Color(0xffC90032);
+  static Color get greenChannel300 => const Color(0xff0D2818);
 
-  static Color get _redChannel200 => const Color(0xff8C0026);
+  static Color get redChannelPrimary => const Color(0xffFF1744);
 
-  static Color get _redChannel300 => const Color(0xff380014);
+  static Color get redChannel100 => const Color(0xffC90032);
 
-  static Color get _blueChannelPrimary => const Color(0xff00A3FF);
+  static Color get redChannel200 => const Color(0xff8C0026);
 
-  static Color get _blueChannel100 => const Color(0xff0866E8);
+  static Color get redChannel300 => const Color(0xff380014);
 
-  static Color get _blueChannel200 => const Color(0xff0645A8);
+  static Color get blueChannelPrimary => const Color(0xff00A3FF);
 
-  static Color get _blueChannel300 => const Color(0xff0A2045);
+  static Color get blueChannel100 => const Color(0xff0866E8);
 
-  static Color get _yellowPlatePrimary => const Color(0xffFFD600);
+  static Color get blueChannel200 => const Color(0xff0645A8);
 
-  static Color get _yellowPlate100 => const Color(0xffE6B800);
+  static Color get blueChannel300 => const Color(0xff0A2045);
 
-  static Color get _yellowPlate200 => const Color(0xff997A00);
+  static Color get yellowPlatePrimary => const Color(0xffFFD600);
 
-  static Color get _yellowPlate300 => const Color(0xff332900);
+  static Color get yellowPlate100 => const Color(0xffE6B800);
 
-  static Color get _magentaPlatePrimary => const Color(0xffFF1F94);
+  static Color get yellowPlate200 => const Color(0xff997A00);
 
-  static Color get _magentaPlate100 => const Color(0xffCC006B);
+  static Color get yellowPlate300 => const Color(0xff332900);
 
-  static Color get _magentaPlate200 => const Color(0xff7A0040);
+  static Color get magentaPlatePrimary => const Color(0xffFF1F94);
 
-  static Color get _magentaPlate300 => const Color(0xff290015);
+  static Color get magentaPlate100 => const Color(0xffCC006B);
 
-  static Color get _paperWhitePrimary => const Color(0xff020202);
+  static Color get magentaPlate200 => const Color(0xff7A0040);
 
-  static Color get _paperWhite100 => const Color(0xff9A968C);
+  static Color get magentaPlate300 => const Color(0xff290015);
 
-  static Color get _paperWhite200 => const Color(0xff67655E);
+  static Color get paperWhite => const Color(0xff020202);
 
-  static Color get _inkBlackPrimary => const Color(0xff020202);
+  static Color get paperWhite100 => const Color(0xff9A968C);
 
-  //DELETE
+  static Color get paperWhite200 => const Color(0xff67655E);
 
-  static Color get _backgroundLight => const Color(0xffF0EDEE);
+  static Color get inkBlack => const Color(0xff020202);
 
-  static Color get _backgroundDark => const Color(0xff020202);
+  // SYSTEM COLORS
+  static Color get destructiveRed => const Color(0xffFF3B30);
 
-  static Color get _primaryColor => const Color(0xff2C26B5);
+  static Color get systemYellow => const Color(0xffFFCC00);
 
-  static Color get _primaryDarkerColor => const Color(0xff222427);
+  static Color get green => const Color(0xff34C759);
 
-  static Color get _secondaryColor => const Color(0xffEAE9F8);
+  // THEME COLORS
+  static Color get primary => calculateColor(ColorType.primary);
 
-  static Color get _secondaryDarkerColor => const Color(0xffE5E5EA);
+  static Color get secondary => calculateColor(ColorType.secondary);
 
-  static Color get _backgroundLightOpacityPoint2Color =>
-      _backgroundLight.withValues(alpha: 0.2);
-  static Color get _backgroundDarkOpacityPoint2Color =>
-      _backgroundDark.withValues(alpha: 0.2);
-  static Color get light => _backgroundLight;
-  static Color get dark => _backgroundDark;
+  static Color get tertiary => calculateColor(ColorType.tertiary);
+
+  static Color get quaternary => calculateColor(ColorType.quaternary);
 
   // DYNAMIC COLORS
-  static Color get background =>
-      !isDarkMode ? _backgroundLight : _backgroundDark;
-  static Color get onBackground =>
-      !isDarkMode ? _backgroundDark : _backgroundLight;
-  static Color get primary => !isDarkMode ? _primaryColor : _secondaryColor;
-  static Color get primaryDarker =>
-      !isDarkMode ? _primaryDarkerColor : _secondaryDarkerColor;
-  static Color get secondary => !isDarkMode ? _secondaryColor : _primaryColor;
-  static Color get secondaryDarker =>
-      !isDarkMode ? _secondaryDarkerColor : _primaryDarkerColor;
-  static Color get backgroundOpacityPoint2 => !isDarkMode
-      ? _backgroundDarkOpacityPoint2Color
-      : _backgroundLightOpacityPoint2Color;
-
-  static Color get alternate => const Color(0xff8A8B8C);
-  static Color get destructiveRed => const Color(0xffFF3B30);
-  static Color get systemYellow => const Color(0xffFFCC00);
-  static Color get green => const Color(0xff34C759);
+  static Color get background => inkBlack;
+  static Color get onBackground => paperWhite;
 }
 
 class TextStyles {

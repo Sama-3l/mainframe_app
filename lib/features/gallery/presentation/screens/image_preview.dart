@@ -109,13 +109,13 @@ class _ImagePreviewState extends State<ImagePreview> {
                                       width: 24,
                                       child: CircularProgressIndicator.adaptive(
                                         backgroundColor:
-                                            ColorsConstants.destructiveRed,
+                                            ColorsConstants.redChannelPrimary,
                                       ),
                                     )
                                   : Icon(
                                       Icons.delete,
                                       size: 24,
-                                      color: ColorsConstants.destructiveRed,
+                                      color: ColorsConstants.redChannelPrimary,
                                     ),
                             ),
                           ),
