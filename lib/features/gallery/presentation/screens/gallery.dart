@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mainframe_app/core/common/custom_cache_image.dart';
+import 'package:mainframe_app/core/common/svg_builder.dart';
+import 'package:mainframe_app/core/constants/assets.dart';
 import 'package:mainframe_app/core/constants/theme.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/gallery_entity.dart';
 import 'package:mainframe_app/features/gallery/domain/entities/image_preview_widget_entity.dart';
@@ -74,75 +76,132 @@ class _GalleryState extends State<Gallery> {
         builder: (context, state) {
           final cubit = context.read<GalleryCubit>();
           return Scaffold(
-            backgroundColor: ColorsConstants.onBackground,
-            appBar: AppBar(
-              backgroundColor: ColorsConstants.background,
+            backgroundColor: ColorsConstants.background,
+            body: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: ColorsConstants.background,
+                  toolbarHeight: 80,
+                  title: Text(widget.title, style: TextStyles.titleLarge),
 
-              title: Text(
-                widget.title,
-                style: TextStyles.labelMedium.copyWith(
-                  color: ColorsConstants.onBackground,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        padding: EdgeInsets.zero,
+                        style: const ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize
+                              .shrinkWrap, // Removes extra outer margin
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 40,
+                        ),
+                        icon: SvgBuilder(
+                          height: 20,
+                          iconPath: AppAssets.svgIcons.search,
+                          color: ColorsConstants.paperWhite,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        padding: EdgeInsets.zero,
+                        style: const ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize
+                              .shrinkWrap, // Removes extra outer margin
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 20,
+                          minHeight: 20,
+                        ),
+                        icon: Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: ColorsConstants.paperWhite,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        padding: EdgeInsets.zero,
+                        style: const ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize
+                              .shrinkWrap, // Removes extra outer margin
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 40,
+                        ),
+                        icon: SvgBuilder(
+                          height: 20,
+                          iconPath: AppAssets.svgIcons.calendar,
+                          color: ColorsConstants.paperWhite,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
 
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: IconButton(
-                    onPressed: () => cubit.unpair(context),
-                    icon: Icon(Icons.link_off, size: 20),
-                  ),
-                ),
-              ],
-            ),
-            body: state.pageLoad
-                ? Center(
-                    child: SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: CircularProgressIndicator.adaptive(
-                        backgroundColor: ColorsConstants.background,
+                if (state.pageLoad)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: SizedBox(
+                        height: 32,
+                        width: 32,
+                        child: CircularProgressIndicator.adaptive(
+                          backgroundColor: ColorsConstants.background,
+                        ),
                       ),
                     ),
                   )
-                : Column(
-                    children: [
-                      Expanded(
-                        child: GridView.builder(
-                          scrollCacheExtent: ScrollCacheExtent.viewport(10000),
-                          controller: _scrollController,
-                          itemCount: state.gallery.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                                childAspectRatio: 1,
-                              ),
-                          itemBuilder: ((context, index) {
-                            final name = state.gallery[index]?.file.name;
-                            if (name == null) {
-                              return Container(color: Colors.grey.shade700);
-                            }
-                            return InkWell(
-                              key: ValueKey(name),
-                              onTap: () => GoRouter.of(context).pushNamed(
-                                Routes.imagePreview,
-
-                                extra: ImagePreviewWidgetEntity(
-                                  images: state.gallery
-                                      .whereType<GalleryEntity>()
-                                      .toList(),
-                                  imageIndex: index,
-                                ),
-                              ),
-                              child: CustomCacheImage(name, lowerRes: true),
-                            );
-                          }),
+                else ...[
+                  SliverGrid.builder(
+                    itemCount: state.gallery.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: 1,
                         ),
-                      ),
-                      if (state.uploadLoading || state.loadMoreImages)
-                        Center(
+                    itemBuilder: (context, index) {
+                      final name = state.gallery[index]?.file.name;
+                      if (name == null) {
+                        return Container(color: Colors.grey.shade700);
+                      }
+                      return InkWell(
+                        key: ValueKey(name),
+                        onTap: () => GoRouter.of(context).pushNamed(
+                          Routes.imagePreview,
+                          extra: ImagePreviewWidgetEntity(
+                            images: state.gallery
+                                .whereType<GalleryEntity>()
+                                .toList(),
+                            imageIndex: index,
+                          ),
+                        ),
+                        child: CustomCacheImage(name, lowerRes: true),
+                      );
+                    },
+                  ),
+
+                  if (state.uploadLoading || state.loadMoreImages)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Center(
                           child: SizedBox(
                             height: 32,
                             width: 32,
@@ -151,8 +210,11 @@ class _GalleryState extends State<Gallery> {
                             ),
                           ),
                         ),
-                    ],
-                  ),
+                      ),
+                    ),
+                ],
+              ],
+            ),
             floatingActionButton: FloatingActionButton(
               onPressed: () => cubit.pickImages(context),
               tooltip: 'Increment',

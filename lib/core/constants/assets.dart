@@ -12,6 +12,8 @@ const String _imagePath = 'assets/images';
 
 class _SvgIcons {
   final logo = '$_iconPath/basic_logo_white.svg';
+  final search = '$_iconPath/search.svg';
+  final calendar = '$_iconPath/calendar.svg';
 }
 
 class _PngIcons {}

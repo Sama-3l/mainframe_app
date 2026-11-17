@@ -132,7 +132,7 @@ abstract class ColorsConstants {
 
   static Color get magentaPlate300 => const Color(0xff290015);
 
-  static Color get paperWhite => const Color(0xff020202);
+  static Color get paperWhite => const Color(0xffF0EDEE);
 
   static Color get paperWhite100 => const Color(0xff9A968C);
 
